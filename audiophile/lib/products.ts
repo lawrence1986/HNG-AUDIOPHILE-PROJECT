@@ -236,6 +236,57 @@ The XX59 delivers exceptional performance, clarity, and comfort at an affordable
     mobile: "/assets/product-xx59-headphones/mobile/image-product.jpg",
   },
 },
+{
+  slug: "zx7-speaker",
+  name: "ZX7 Speaker",
+  category: "speakers",
+  new: false,
+  price: 3500,
+  description:
+    "Stream high-quality sound wirelessly with minimal loss. The ZX7 speaker uses high-end components that guarantee exceptional sound reproduction and clarity for your home audio setup.",
+  features: `Reimagine your living room with the ZX7 speaker. Combining high-fidelity sound and a classic design, 
+it’s built to bring your music to life. The aluminum frame and premium components ensure crystal-clear playback, 
+while the wireless design allows effortless connectivity across all your devices.`,
+  includes: [
+    { quantity: 2, item: "Speaker unit" },
+    { quantity: 2, item: "Speaker cable (2.5m)" },
+    { quantity: 1, item: "User manual" },
+    { quantity: 1, item: "Remote control" },
+  ],
+  gallery: {
+    first: {
+      desktop: "/assets/product-zx7-speaker/desktop/image-gallery-1.jpg",
+    },
+    second: {
+      desktop: "/assets/product-zx7-speaker/desktop/image-gallery-2.jpg",
+    },
+    third: {
+      desktop: "/assets/product-zx7-speaker/desktop/image-gallery-3.jpg",
+    },
+  },
+  others: [
+    {
+      slug: "zx9-speaker",
+      name: "ZX9 Speaker",
+      image: { desktop: "/assets/shared/desktop/image-zx9-speaker.jpg" },
+    },
+    {
+      slug: "xx99-mark-i",
+      name: "XX99 Mark I Headphones",
+      image: { desktop: "/assets/shared/desktop/image-xx99-mark-one-headphones.jpg" },
+    },
+    {
+      slug: "yx1-earphones",
+      name: "YX1 Earphones",
+      image: { desktop: "/assets/shared/desktop/image-yx1-earphones.jpg" },
+    },
+  ],
+  image: {
+    desktop: "/assets/product-zx7-speaker/desktop/image-product.jpg",
+    tablet: "/assets/product-zx7-speaker/tablet/image-product.jpg",
+    mobile: "/assets/product-zx7-speaker/mobile/image-product.jpg",
+  },
+},
 
 ];
 
