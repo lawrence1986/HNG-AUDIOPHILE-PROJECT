@@ -4,6 +4,58 @@ import { useCart } from "@/components/CartContext";
 import CartItem from "@/components/CartItem";
 import { useState } from "react";
 import Link from "next/link";
+import { api } from "@/convex/_generated/api";
+import { fetchMutation } from "convex/nextjs";
+
+// inside your handleSubmit:
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  if (cart.length === 0) return;
+
+  // gather data
+  const customer = {
+    name: form.name,
+    email: form.email,
+    phone: form.phone,
+  };
+  const shipping = {
+    address: form.address,
+    city: form.city,
+    country: form.country,
+    zip: form.zip,
+  };
+  const items = cart.map(item => ({
+    id: item.slug,
+    name: item.name,
+    price: item.price,
+    quantity: item.quantity,
+  }));
+  const subtotal = total;
+  const shippingCost = 50;
+  const tax = Math.round(total * 0.2);
+  const grandTotal = subtotal + shippingCost;
+
+  // call mutation
+  const result = await fetchMutation(api.orders.createOrder, {
+    customer,
+    shipping,
+    items,
+    totals: {
+      subtotal,
+      shipping: shippingCost,
+      tax,
+      grandTotal,
+    },
+    status: "pending",
+  });
+
+  console.log("Order saved, ID:", result.orderId);
+
+  // clear cart & show modal
+  clearCart();
+  setIsModalOpen(true);
+};
+
 
 export default function CheckoutPage() {
   const { cart, total, clearCart } = useCart();
@@ -250,16 +302,16 @@ export default function CheckoutPage() {
 function Input({
   label,
   name,
-  value,
-  onChange,
-  full = false,
-}: {
+  // ✅ Input Component
+type InputProps = {
   label: string;
   name: string;
   value: string;
-  onChange: any;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   full?: boolean;
-}) {
+};
+
+function Input({ label, name, value, onChange, full = false }: InputProps) {
   return (
     <div className={full ? "col-span-2" : ""}>
       <label className="block text-sm font-semibold mb-2">{label}</label>
@@ -274,20 +326,23 @@ function Input({
   );
 }
 
-function Radio({
-  label,
-  name,
-  checked,
-  onChange,
-}: {
+// ✅ Radio Component
+type RadioProps = {
   label: string;
   name: string;
   checked: boolean;
-  onChange: any;
-}) {
+  onChange: () => void;
+};
+
+function Radio({ label, name, checked, onChange }: RadioProps) {
   return (
     <label className="flex items-center gap-3 border border-gray-300 rounded-md py-2 px-4 cursor-pointer hover:border-[#D87D4A] w-full">
-      <input type="radio" name={name} checked={checked} onChange={onChange} />
+      <input
+        type="radio"
+        name={name}
+        checked={checked}
+        onChange={onChange}
+      />
       <span>{label}</span>
     </label>
   );
