@@ -46,10 +46,9 @@ export default function Home() {
           </p>
 
           {/* Title */}
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight mb-6">
-            XX99 Mark II <br />
-            Headphones
-          </h1>
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight">
+        XX99 Mark II <br /> Headphones
+      </h1>
 
           {/* Description */}
           <p className="text-gray-300 text-base leading-relaxed mb-8">
@@ -181,7 +180,7 @@ export default function Home() {
 {/* ================================
     ZX7 SPEAKER BANNER SECTION
 ================================== */}
-<section className="relative bg-[#F1F1F1] rounded-lg mx-6 md:mx-16 my-20 overflow-hidden flex flex-col md:flex-row items-center justify-between">
+<section className="relative bg-[#F1F1F1] rounded-lg mx-6 md:mx-16 my-24 overflow-hidden flex flex-col md:flex-row items-center justify-between">
   {/* ZX7 Speaker Image */}
   <div className="w-full md:w-1/2">
     <Image
@@ -274,77 +273,38 @@ export default function Home() {
 {/* ================================
     FOOTER SECTION
 ================================== */}
-<footer className="bg-[#101010] text-white py-14 md:py-16">
-  <div className="container mx-auto px-6 md:px-16 text-center md:text-left space-y-10 md:space-y-0 md:space-x-0">
-    {/* Top Row */}
-    <div className="flex flex-col md:flex-row items-center md:items-start justify-between mb-10">
-      {/* Logo */}
-      <h1 className="text-2xl font-extrabold uppercase tracking-wide mb-8 md:mb-0">
-        audiophile
-      </h1>
-
-      {/* Nav Links */}
+<footer className="bg-[#101010] text-white py-16 px-6 md:px-16">
+  <div className="container flex flex-col gap-10">
+    {/* Top row */}
+    <div className="flex flex-col md:flex-row items-center md:items-start justify-between gap-8">
+      <h1 className="text-2xl font-extrabold uppercase tracking-wide">audiophile</h1>
       <nav className="flex flex-col md:flex-row gap-6 text-sm uppercase font-semibold tracking-wider">
-        <Link href="/" className="hover:text-[#D87D4A] transition">
-          Home
-        </Link>
-        <Link href="/category/headphones" className="hover:text-[#D87D4A] transition">
-          Headphones
-        </Link>
-        <Link href="/category/speakers" className="hover:text-[#D87D4A] transition">
-          Speakers
-        </Link>
-        <Link href="/category/earphones" className="hover:text-[#D87D4A] transition">
-          Earphones
-        </Link>
+        <Link href="/" className="hover:text-[#D87D4A]">Home</Link>
+        <Link href="/category/headphones" className="hover:text-[#D87D4A]">Headphones</Link>
+        <Link href="/category/speakers" className="hover:text-[#D87D4A]">Speakers</Link>
+        <Link href="/category/earphones" className="hover:text-[#D87D4A]">Earphones</Link>
       </nav>
     </div>
 
-    {/* Middle Row - Description */}
-    <p className="text-gray-400 max-w-2xl leading-relaxed mb-10">
-      Audiophile is an all-in-one stop to fulfill your audio needs. We’re a small team
-      of music lovers and sound specialists who are devoted to helping you get the most
-      out of personal audio. Come and visit our demo facility – we’re open 7 days a week.
+    {/* Description */}
+    <p className="text-gray-400 text-sm md:text-base leading-relaxed max-w-2xl">
+      Audiophile is an all-in-one stop to fulfill your audio needs. We’re a small team of music lovers
+      and sound specialists who are devoted to helping you get the most out of personal audio.
+      Come and visit our demo facility – we’re open 7 days a week.
     </p>
 
-    {/* Bottom Row */}
-    <div className="flex flex-col md:flex-row items-center md:items-end justify-between gap-8">
-      {/* Copyright */}
-      <p className="text-gray-500 text-sm">Copyright 2021. All Rights Reserved</p>
-
-      {/* Social Icons */}
+    {/* Bottom row */}
+    <div className="flex flex-col md:flex-row items-center justify-between gap-8">
+      <p className="text-gray-500 text-xs md:text-sm">Copyright 2021. All Rights Reserved</p>
       <div className="flex items-center gap-6">
-        <Link href="#" aria-label="Facebook">
-          <Image
-            src="/assets/shared/desktop/icon-facebook.svg"
-            alt="Facebook"
-            width={24}
-            height={24}
-            className="hover:opacity-70 transition"
-          />
-        </Link>
-        <Link href="#" aria-label="Twitter">
-          <Image
-            src="/assets/shared/desktop/icon-twitter.svg"
-            alt="Twitter"
-            width={24}
-            height={24}
-            className="hover:opacity-70 transition"
-          />
-        </Link>
-        <Link href="#" aria-label="Instagram">
-          <Image
-            src="/assets/shared/desktop/icon-instagram.svg"
-            alt="Instagram"
-            width={24}
-            height={24}
-            className="hover:opacity-70 transition"
-          />
-        </Link>
+        <Image src="/assets/shared/desktop/icon-facebook.svg" alt="Facebook" width={24} height={24} className="hover:opacity-70"/>
+        <Image src="/assets/shared/desktop/icon-twitter.svg" alt="Twitter" width={24} height={24} className="hover:opacity-70"/>
+        <Image src="/assets/shared/desktop/icon-instagram.svg" alt="Instagram" width={24} height={24} className="hover:opacity-70"/>
       </div>
     </div>
   </div>
 </footer>
+
 
 
      
