@@ -1,0 +1,13 @@
+{
+  "products": [
+    {
+      "id": "xx99m2",
+      "slug": "xx99-mark-two",
+      "name": "XX99 Mark II Headphones",
+      "category": "headphones",
+      "price": 2999,
+      "description": "The pinnacle of pristine audio.",
+      "image": "/assets/cart/image-xx99-mark-two-headphones.jpg"
+    }
+  ]
+}
