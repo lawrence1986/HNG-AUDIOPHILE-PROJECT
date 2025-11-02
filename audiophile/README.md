@@ -1,4 +1,4 @@
-🚀 ## Overview
+🚀 #Overview
 
 **Audiophile is a multi-page e-commerce platform where users can explore, view, and purchase high-end audio products.
 This implementation brings the official Figma design to life — featuring category pages, product detail routes, cart functionality, and a checkout workflow — all optimized for speed and usability.
