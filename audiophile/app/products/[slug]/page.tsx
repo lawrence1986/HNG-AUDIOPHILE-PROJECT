@@ -102,6 +102,43 @@ export default async function ProductPage({ params }: ProductPageProps) {
           </ul>
         </div>
       </section>
+      {/* Product Gallery Section */}
+<section className="max-w-7xl mx-auto px-6 md:px-20 mt-32 grid grid-cols-1 md:grid-cols-[40%_60%] gap-6">
+  {/* Left Column (Two stacked images) */}
+  <div className="flex flex-col gap-6">
+    <div className="rounded-lg overflow-hidden h-[280px] md:h-[300px] lg:h-[350px]">
+      <Image
+        src={product.gallery.first.desktop}
+        alt={`${product.name} gallery 1`}
+        width={540}
+        height={350}
+        className="w-full h-full object-cover"
+        priority
+      />
+    </div>
+    <div className="rounded-lg overflow-hidden h-[280px] md:h-[300px] lg:h-[350px]">
+      <Image
+        src={product.gallery.second.desktop}
+        alt={`${product.name} gallery 2`}
+        width={540}
+        height={350}
+        className="w-full h-full object-cover"
+      />
+    </div>
+  </div>
+
+  {/* Right Column (Large image same height as both combined) */}
+  <div className="rounded-lg overflow-hidden h-[580px] md:h-[640px] lg:h-[720px]">
+    <Image
+      src={product.gallery.third.desktop}
+      alt={`${product.name} gallery 3`}
+      width={850}
+      height={720}
+      className="w-full h-full object-cover"
+    />
+  </div>
+</section>
+
     </main>
   );
 }
