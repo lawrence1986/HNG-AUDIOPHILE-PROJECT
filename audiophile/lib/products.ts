@@ -23,7 +23,11 @@ These earphones create an incredibly natural listening experience, immersing you
       {
         slug: "xx99-mark-ii",
         name: "XX99 Mark II Headphones",
-        image: { desktop: "/assets/shared/desktop/image-xx99-mark-two-headphones.jpg" },
+        image: {
+          desktop: "/assets/shared/desktop/image-xx99-mark-two-headphones.jpg",
+          tablet: "/assets/product-xx99-mark-two/tablet/image-product.jpg",
+          mobile: "/assets/product-xx99-mark-two/mobile/image-product.jpg",
+        },
       },
       {
         slug: "zx9-speaker",
@@ -32,6 +36,7 @@ These earphones create an incredibly natural listening experience, immersing you
       },
     ],
   },
+
   {
     slug: "zx9-speaker",
     name: "ZX9 Speaker",
@@ -62,7 +67,19 @@ These earphones create an incredibly natural listening experience, immersing you
         name: "YX1 Earphones",
         image: { desktop: "/assets/shared/desktop/image-yx1-earphones.jpg" },
       },
-        {
+      {
+        slug: "xx99-mark-ii",
+        name: "XX99 Mark II Headphones",
+        image: {
+          desktop: "/assets/product-xx99-mark-two-headphones/desktop/image-product.jpg",
+          tablet: "/assets/product-xx99-mark-two-headphones/tablet/image-product.jpg",
+          mobile: "/assets/product-xx99-mark-two-headphones/mobile/image-product.jpg",
+        },
+      },
+    ],
+  },
+
+  {
     slug: "xx99-mark-ii",
     name: "XX99 Mark II Headphones",
     category: "headphones",
@@ -79,9 +96,15 @@ Each component is crafted to provide stunning clarity and realism.`,
       { quantity: 1, item: "3.5mm audio cable" },
     ],
     gallery: {
-      first: { desktop: "/assets/product-xx99-mark-two-headphones/desktop/image-gallery-1.jpg" },
-      second: { desktop: "/assets/product-xx99-mark-two-headphones/desktop/image-gallery-2.jpg" },
-      third: { desktop: "/assets/product-xx99-mark-two-headphones/desktop/image-gallery-3.jpg" },
+      first: {
+        desktop: "/assets/product-xx99-mark-two-headphones/desktop/image-gallery-1.jpg",
+      },
+      second: {
+        desktop: "/assets/product-xx99-mark-two-headphones/desktop/image-gallery-2.jpg",
+      },
+      third: {
+        desktop: "/assets/product-xx99-mark-two-headphones/desktop/image-gallery-3.jpg",
+      },
     },
     others: [
       {
@@ -100,13 +123,15 @@ Each component is crafted to provide stunning clarity and realism.`,
         image: { desktop: "/assets/shared/desktop/image-zx9-speaker.jpg" },
       },
     ],
-  },
-
-    ],
+    image: {
+      desktop: "/assets/product-xx99-mark-two-headphones/desktop/image-product.jpg",
+      tablet: "/assets/product-xx99-mark-two-headphones/tablet/image-product.jpg",
+      mobile: "/assets/product-xx99-mark-two-headphones/mobile/image-product.jpg",
+    },
   },
 ];
 
-// ✅ helper functions
+// ✅ Helper Functions
 export function getProductBySlug(slug: string) {
   return products.find((p) => p.slug === slug);
 }
