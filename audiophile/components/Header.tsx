@@ -1,110 +1,58 @@
-'use client';
+"use client";
 
-import Image from 'next/image';
-import Link from 'next/link';
-import { useState } from 'react';
-import { usePathname } from 'next/navigation';
+import Link from "next/link";
+import Image from "next/image";
+import { useState } from "react";
+import { useCart } from "@/app/context/CartContext";
+import Cart from "@/components/Cart";
 
 export default function Header() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const pathname = usePathname();
-
-  const navLinks = [
-    { name: 'Home', href: '/' },
-    { name: 'Headphones', href: '/category/headphones' },
-    { name: 'Speakers', href: '/category/speakers' },
-    { name: 'Earphones', href: '/category/earphones' },
-  ];
+  const [cartOpen, setCartOpen] = useState(false);
+  const { cartCount } = useCart(); // ✅ use count directly
 
   return (
-    <header className="bg-[#000000] text-white">
-      <div className="container mx-auto px-6 flex items-center justify-between h-20 border-b border-gray-700 relative">
-        {/* Logo */}
-        <Link href="/" className="flex items-center space-x-2">
-          <Image
-            src="/assets/logo.svg"
-            alt="audiophile logo"
-            width={140}
-            height={30}
-            priority
-          />
-        </Link>
+    <header className="bg-[#000000] text-white py-6 px-8 flex justify-between items-center relative z-50 border-b border-gray-700">
+      {/* Left - Logo */}
+      <Link href="/" className="font-bold text-lg uppercase tracking-wide">
+        audiophile
+      </Link>
 
-        {/* Desktop Navigation */}
-        <nav className="hidden md:flex space-x-10 uppercase tracking-widest text-sm font-semibold">
-          {navLinks.map((link) => {
-            const isActive =
-              link.href === '/'
-                ? pathname === link.href
-                : pathname.startsWith(link.href);
+      {/* Center - Navigation */}
+      <nav className="hidden md:flex gap-8 text-sm uppercase tracking-widest">
+        <Link href="/" className="hover:text-[#D87D4A] transition">Home</Link>
+        <Link href="/category/headphones" className="hover:text-[#D87D4A] transition">Headphones</Link>
+        <Link href="/category/speakers" className="hover:text-[#D87D4A] transition">Speakers</Link>
+        <Link href="/category/earphones" className="hover:text-[#D87D4A] transition">Earphones</Link>
+      </nav>
 
-            return (
-              <Link
-                key={link.name}
-                href={link.href}
-                className={`pb-1 border-b-2 transition ${
-                  isActive
-                    ? 'text-accent border-accent'
-                    : 'border-transparent hover:text-accent'
-                }`}
-              >
-                {link.name}
-              </Link>
-            );
-          })}
-        </nav>
+      {/* Right - Cart Icon with Counter */}
+      <button
+        onClick={() => setCartOpen(!cartOpen)}
+        aria-label="Cart"
+        className="relative"
+      >
+        <Image
+          src="/assets/cart/icon-cart.png"
+          alt="Cart"
+          width={24}
+          height={24}
+          className="hover:opacity-80 transition"
+        />
 
-        {/* Cart Icon */}
-        <div className="flex items-center space-x-6">
-          <Link href="/cart">
-            <Image
-              src="/assets/cart/icon-cart.png"
-              alt="Cart"
-              width={25}
-              height={25}
-              className="cursor-pointer hover:opacity-80 brightness-0 invert"
-            />
-          </Link>
-
-          {/* Mobile Menu Button */}
-          <button
-            className="md:hidden focus:outline-none"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-          >
-            <Image
-              src="/assets/hamburger.svg"
-              alt="Menu"
-              width={20}
-              height={20}
-            />
-          </button>
-        </div>
-
-        {/* Mobile Menu Drawer */}
-        {isMenuOpen && (
-          <div className="absolute top-20 left-0 w-full bg-[#000000] text-white flex flex-col space-y-6 py-6 px-8 border-t border-gray-700 md:hidden z-50">
-            {navLinks.map((link) => {
-              const isActive =
-                link.href === '/'
-                  ? pathname === link.href
-                  : pathname.startsWith(link.href);
-
-              return (
-                <Link
-                  key={link.name}
-                  href={link.href}
-                  onClick={() => setIsMenuOpen(false)}
-                  className={`uppercase transition ${
-                    isActive ? 'text-accent' : 'hover:text-accent'
-                  }`}
-                >
-                  {link.name}
-                </Link>
-              );
-            })}
-          </div>
+        {/* ✅ Live Counter Badge */}
+        {cartCount > 0 && (
+          <span className="absolute -top-2 -right-2 bg-[#D87D4A] text-white text-[10px] font-bold rounded-full px-[6px] py-[2px]">
+            {cartCount}
+          </span>
         )}
-      </div>
+      </button>
+
+      {/* Cart Modal */}
+      {cartOpen && (
+        <div className="absolute top-20 right-8 z-50">
+          <Cart />
+        </div>
+      )}
     </header>
   );
 }
