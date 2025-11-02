@@ -4,7 +4,7 @@ theme: {
 extend: {
 colors: {
 brand: '#000000',
-accent: '#ffa111'
+accent: '#D87D4A'
 },
 fontFamily: {
 sans: ['Inter', 'sans-serif']
