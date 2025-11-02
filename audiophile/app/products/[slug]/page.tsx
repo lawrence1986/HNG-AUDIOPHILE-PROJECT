@@ -138,6 +138,69 @@ export default async function ProductPage({ params }: ProductPageProps) {
     />
   </div>
 </section>
+{/* You May Also Like Section */}
+<section className="max-w-7xl mx-auto px-6 md:px-20 mt-40 text-center">
+  <h2 className="uppercase text-2xl md:text-[32px] font-bold tracking-widest mb-16">
+    You May Also Like
+  </h2>
+
+  <div className="grid md:grid-cols-3 gap-12">
+    {product.others.map((item: any, index: number) => (
+      <div key={index} className="flex flex-col items-center">
+        {/* Image */}
+        <div className="bg-[#F1F1F1] rounded-lg flex justify-center items-center p-10 w-full h-[320px]">
+          <Image
+            src={item.image.desktop}
+            alt={item.name}
+            width={350}
+            height={350}
+            className="object-contain"
+          />
+        </div>
+
+        {/* Product Name */}
+        <h3 className="uppercase mt-10 text-xl font-bold tracking-wide">{item.name}</h3>
+
+        {/* CTA Button */}
+        <Link
+          href={`/products/${item.slug}`}
+          className="mt-6 bg-[#D87D4A] hover:bg-[#FBAF85] text-white uppercase px-8 py-3 text-sm tracking-widest transition"
+        >
+          See Product
+        </Link>
+      </div>
+    ))}
+  </div>
+</section>
+
+{/* Bringing You the Best Audio Gear Section */}
+<section className="max-w-7xl mx-auto px-6 md:px-20 mt-40 grid md:grid-cols-2 gap-20 items-center">
+  {/* Left Text */}
+  <div className="text-center md:text-left">
+    <h2 className="uppercase text-[32px] md:text-[40px] font-bold leading-snug">
+      Bringing you the <span className="text-[#D87D4A]">best</span> audio gear
+    </h2>
+    <p className="text-gray-600 text-[15px] leading-relaxed mt-8 max-w-md mx-auto md:mx-0">
+      Located at the heart of New York City, Audiophile is the premier store for
+      high-end headphones, earphones, speakers, and audio accessories. We have a large
+      showroom and luxury demonstration rooms available for you to browse and
+      experience a wide range of our products. Stop by our store to meet some of the
+      fantastic people who make Audiophile the best place to buy your portable audio
+      equipment.
+    </p>
+  </div>
+
+  {/* Right Image */}
+  <div className="rounded-lg overflow-hidden order-first md:order-last">
+    <Image
+      src="/assets/shared/desktop/image-best-gear.jpg"
+      alt="Best Audio Gear"
+      width={600}
+      height={600}
+      className="object-cover rounded-lg w-full h-full"
+    />
+  </div>
+</section>
 
     </main>
   );
