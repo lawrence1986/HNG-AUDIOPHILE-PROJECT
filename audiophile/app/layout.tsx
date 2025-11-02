@@ -1,20 +1,25 @@
 import "./globals.css";
 import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 import { CartProvider } from "@/app/context/CartContext";
 
 export const metadata = {
   title: "Audiophile",
-  description: "Premium audio equipment e-commerce site",
+  description: "Audiophile E-commerce App",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en">
-      <body>
-        {/* ✅ Wrap everything that uses useCart() in CartProvider */}
+      <body className="bg-[#FAFAFA] text-black">
         <CartProvider>
           <Header />
           <main>{children}</main>
+          <Footer />
         </CartProvider>
       </body>
     </html>

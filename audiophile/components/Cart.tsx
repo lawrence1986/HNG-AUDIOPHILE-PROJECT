@@ -24,8 +24,9 @@ export default function Cart() {
 
       <div className="space-y-4 max-h-60 overflow-y-auto">
         {cart.map((item) => (
-          <CartItem key={item.slug} {...item} />
-        ))}
+  <CartItem key={item.id} {...item} />
+))}
+
       </div>
 
       <div className="flex justify-between items-center mt-6 mb-6">
