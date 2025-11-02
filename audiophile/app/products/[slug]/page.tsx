@@ -2,206 +2,174 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { products } from "@/lib/products";
+import AddToCartButton from "@/components/AddToCartButton";
 
-interface ProductPageProps {
-  params: Promise<{ slug: string }>;
-}
 
-export default async function ProductPage({ params }: ProductPageProps) {
+
+export default async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
+  // ✅ unwrap params (Next.js 16 App Router requirement)
   const { slug } = await params;
-  const product = products.find((p) => p.slug === slug);
 
+  // ✅ find product by slug
+  const product = products.find((p) => p.slug === slug);
   if (!product) return notFound();
 
   return (
-    <main className="bg-[#FAFAFA] text-black min-h-screen pb-32">
-      {/* Go Back */}
-      <div className="max-w-7xl mx-auto px-6 md:px-20 pt-10">
-        <Link
-          href="/"
-          className="text-gray-500 hover:text-[#D87D4A] transition duration-200"
-        >
-          Go Back
-        </Link>
-      </div>
-
-      {/* Product Info */}
-      <section className="max-w-7xl mx-auto px-6 md:px-20 mt-12 flex flex-col md:flex-row md:items-center md:gap-24">
+    <main className="max-w-7xl mx-auto px-6 md:px-20 py-20">
+      {/* Product Section */}
+      <div className="grid md:grid-cols-2 gap-12 items-center">
         {/* Product Image */}
-        <div className="flex-1 bg-[#F1F1F1] rounded-lg flex justify-center items-center p-12">
+        <div className="bg-[#F1F1F1] rounded-lg flex items-center justify-center">
           <Image
             src={product.image?.desktop || "/assets/shared/desktop/image-placeholder.jpg"}
             alt={product.name}
             width={500}
             height={500}
-            className="object-contain"
+            className="object-contain w-full h-auto p-10"
             priority
           />
         </div>
 
         {/* Product Details */}
-        <div className="flex-1 mt-10 md:mt-0">
+        <div>
           {product.new && (
-            <p className="uppercase tracking-[10px] text-[#D87D4A] text-sm mb-4">
+            <p className="uppercase text-[#D87D4A] tracking-[10px] text-sm mb-4">
               New Product
             </p>
           )}
 
-          <h1 className="uppercase text-[32px] md:text-[40px] font-bold leading-tight">
+          <h1 className="text-4xl md:text-[42px] font-bold uppercase leading-tight mb-6">
             {product.name}
           </h1>
 
-          <p className="text-gray-600 text-[15px] leading-relaxed mt-6 mb-8 max-w-md">
-            {product.description}
-          </p>
+          <p className="text-gray-600 mb-8 leading-relaxed">{product.description}</p>
 
-          <p className="text-black font-bold text-lg tracking-widest mb-8">
-            ${product.price.toLocaleString()}
-          </p>
+          <p className="text-xl font-bold tracking-wide mb-2">
+  ${product.price.toLocaleString()}
+</p>
 
-          {/* Quantity + Add to Cart */}
-          <div className="flex items-center gap-4">
-            <div className="flex items-center bg-[#F1F1F1] px-3 py-2 text-sm font-semibold">
-              <button className="px-3 text-gray-500 hover:text-[#D87D4A]">-</button>
-              <span className="px-4">1</span>
-              <button className="px-3 text-gray-500 hover:text-[#D87D4A]">+</button>
-            </div>
-            <button className="bg-[#D87D4A] hover:bg-[#FBAF85] text-white uppercase px-8 py-3 text-sm tracking-widest transition">
-              Add to Cart
-            </button>
-          </div>
+{/* Add to Cart (Client Component) */}
+{/* This won’t break your Server Component rendering */}
+{/* It hydrates only this section on the client */}
+<div className="mt-4">
+  {/* @ts-expect-error Server/Client boundary */}
+  <AddToCartButton product={product} />
+</div>
+
         </div>
-      </section>
+      </div>
 
-      {/* Features + In the Box */}
-      <section className="max-w-7xl mx-auto px-6 md:px-20 mt-28 grid md:grid-cols-3 gap-20">
-        {/* Features */}
-        <div className="md:col-span-2">
-          <h2 className="uppercase text-2xl font-bold mb-6 tracking-wide">
-            Features
-          </h2>
-          <p className="text-gray-600 text-[15px] leading-relaxed whitespace-pre-line">
+      {/* Features Section */}
+      <section className="mt-32 grid md:grid-cols-2 gap-16">
+        <div>
+          <h2 className="uppercase text-2xl font-bold mb-6">Features</h2>
+          <p className="text-gray-600 leading-relaxed whitespace-pre-line">
             {product.features}
           </p>
         </div>
 
-        {/* In the Box */}
         <div>
-          <h2 className="uppercase text-2xl font-bold mb-6 tracking-wide">
-            In the Box
-          </h2>
-          <ul className="space-y-3">
-            {product.includes.map((item: any, index: number) => (
-              <li key={index} className="text-gray-600 text-[15px]">
-                <span className="text-[#D87D4A] font-bold mr-3">
-                  {item.quantity}x
-                </span>
+          <h2 className="uppercase text-2xl font-bold mb-6">In the Box</h2>
+          <ul>
+            {product.includes.map((item, index) => (
+              <li key={index} className="flex gap-4 text-gray-600 mb-2">
+                <span className="text-[#D87D4A] font-bold">{item.quantity}x</span>
                 {item.item}
               </li>
             ))}
           </ul>
         </div>
       </section>
-      {/* Product Gallery Section */}
-<section className="max-w-7xl mx-auto px-6 md:px-20 mt-32 grid grid-cols-1 md:grid-cols-[40%_60%] gap-6">
-  {/* Left Column (Two stacked images) */}
-  <div className="flex flex-col gap-6">
-    <div className="rounded-lg overflow-hidden h-[280px] md:h-[300px] lg:h-[350px]">
-      <Image
-        src={product.gallery.first.desktop}
-        alt={`${product.name} gallery 1`}
-        width={540}
-        height={350}
-        className="w-full h-full object-cover"
-        priority
-      />
-    </div>
-    <div className="rounded-lg overflow-hidden h-[280px] md:h-[300px] lg:h-[350px]">
-      <Image
-        src={product.gallery.second.desktop}
-        alt={`${product.name} gallery 2`}
-        width={540}
-        height={350}
-        className="w-full h-full object-cover"
-      />
-    </div>
-  </div>
 
-  {/* Right Column (Large image same height as both combined) */}
-  <div className="rounded-lg overflow-hidden h-[580px] md:h-[640px] lg:h-[720px]">
-    <Image
-      src={product.gallery.third.desktop}
-      alt={`${product.name} gallery 3`}
-      width={850}
-      height={720}
-      className="w-full h-full object-cover"
-    />
-  </div>
-</section>
-{/* You May Also Like Section */}
-<section className="max-w-7xl mx-auto px-6 md:px-20 mt-40 text-center">
-  <h2 className="uppercase text-2xl md:text-[32px] font-bold tracking-widest mb-16">
-    You May Also Like
-  </h2>
-
-  <div className="grid md:grid-cols-3 gap-12">
-    {product.others.map((item: any, index: number) => (
-      <div key={index} className="flex flex-col items-center">
-        {/* Image */}
-        <div className="bg-[#F1F1F1] rounded-lg flex justify-center items-center p-10 w-full h-[320px]">
+      {/* Gallery Section */}
+      {product.gallery && (
+        <section className="mt-32 grid md:grid-cols-3 gap-6">
           <Image
-            src={item.image.desktop}
-            alt={item.name}
-            width={350}
-            height={350}
-            className="object-contain"
+            src={product.gallery.first.desktop}
+            alt={`${product.name} gallery 1`}
+            width={400}
+            height={400}
+            className="rounded-lg object-cover w-full h-full"
           />
+          <Image
+            src={product.gallery.second.desktop}
+            alt={`${product.name} gallery 2`}
+            width={400}
+            height={400}
+            className="rounded-lg object-cover w-full h-full"
+          />
+          <Image
+            src={product.gallery.third.desktop}
+            alt={`${product.name} gallery 3`}
+            width={400}
+            height={400}
+            className="rounded-lg object-cover w-full h-full"
+          />
+        </section>
+      )}
+
+      {/* ✅ You May Also Like Section */}
+      {product.others && product.others.length > 0 && (
+        <section className="mt-40 text-center">
+          <h2 className="uppercase text-3xl md:text-4xl font-bold mb-16">
+            You May Also Like
+          </h2>
+
+          <div className="grid md:grid-cols-3 gap-12">
+            {product.others.map((item, index) => (
+              <div key={index} className="flex flex-col items-center text-center">
+                <div className="bg-[#F1F1F1] rounded-lg overflow-hidden mb-8 w-full flex items-center justify-center">
+                  <Image
+                    src={item.image.desktop}
+                    alt={item.name}
+                    width={350}
+                    height={350}
+                    className="object-contain w-full h-auto"
+                  />
+                </div>
+
+                <h3 className="uppercase text-lg font-bold mb-6">{item.name}</h3>
+
+                <Link
+                  href={`/products/${item.slug}`}
+                  className="bg-[#D87D4A] hover:bg-[#FBAF85] text-white uppercase px-8 py-3 tracking-widest text-sm transition"
+                >
+                  See Product
+                </Link>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* ✅ Bringing You the Best Section */}
+      <section className="mt-40 grid md:grid-cols-2 gap-20 items-center">
+        {/* Left Text Block */}
+        <div className="order-2 md:order-1 text-center md:text-left">
+          <h2 className="uppercase text-[32px] md:text-[40px] font-bold leading-snug">
+            Bringing you the <span className="text-[#D87D4A]">best</span> audio gear
+          </h2>
+          <p className="text-gray-600 text-[15px] leading-relaxed mt-6 max-w-md mx-auto md:mx-0">
+            Located at the heart of New York City, Audiophile is the premier store for
+            high-end headphones, earphones, speakers, and audio accessories. We have a
+            large showroom and luxury demonstration rooms available for you to browse and
+            experience a wide range of our products. Stop by our store to meet some of the
+            fantastic people who make Audiophile the best place to buy your portable audio
+            equipment.
+          </p>
         </div>
 
-        {/* Product Name */}
-        <h3 className="uppercase mt-10 text-xl font-bold tracking-wide">{item.name}</h3>
-
-        {/* CTA Button */}
-        <Link
-          href={`/products/${item.slug}`}
-          className="mt-6 bg-[#D87D4A] hover:bg-[#FBAF85] text-white uppercase px-8 py-3 text-sm tracking-widest transition"
-        >
-          See Product
-        </Link>
-      </div>
-    ))}
-  </div>
-</section>
-
-{/* Bringing You the Best Audio Gear Section */}
-<section className="max-w-7xl mx-auto px-6 md:px-20 mt-40 grid md:grid-cols-2 gap-20 items-center">
-  {/* Left Text */}
-  <div className="text-center md:text-left">
-    <h2 className="uppercase text-[32px] md:text-[40px] font-bold leading-snug">
-      Bringing you the <span className="text-[#D87D4A]">best</span> audio gear
-    </h2>
-    <p className="text-gray-600 text-[15px] leading-relaxed mt-8 max-w-md mx-auto md:mx-0">
-      Located at the heart of New York City, Audiophile is the premier store for
-      high-end headphones, earphones, speakers, and audio accessories. We have a large
-      showroom and luxury demonstration rooms available for you to browse and
-      experience a wide range of our products. Stop by our store to meet some of the
-      fantastic people who make Audiophile the best place to buy your portable audio
-      equipment.
-    </p>
-  </div>
-
-  {/* Right Image */}
-  <div className="rounded-lg overflow-hidden order-first md:order-last">
-    <Image
-      src="/assets/shared/desktop/image-best-gear.jpg"
-      alt="Best Audio Gear"
-      width={600}
-      height={600}
-      className="object-cover rounded-lg w-full h-full"
-    />
-  </div>
-</section>
-
+        {/* Right Image */}
+        <div className="rounded-lg overflow-hidden order-1 md:order-2">
+          <Image
+            src="/assets/shared/desktop/image-best-gear.jpg"
+            alt="Best Audio Gear"
+            width={600}
+            height={600}
+            className="object-cover rounded-lg w-full h-full"
+          />
+        </div>
+      </section>
     </main>
   );
 }
