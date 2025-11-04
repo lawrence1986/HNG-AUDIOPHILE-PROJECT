@@ -4,7 +4,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
 import { useCart } from "@/app/context/CartContext";
-import Cart from "@/components/Cart";
+import { CartProvider } from "@/components/CartContext";
+
 
 export default function Header() {
   const [cartOpen, setCartOpen] = useState(false);

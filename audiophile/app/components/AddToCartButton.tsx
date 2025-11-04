@@ -1,7 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { useCart } from "@/app/context/CartContext";
+import { useCart } from "@/app/components/CartContext";
+import { CartProvider } from "@/app/components/CartContext";
+
 
 interface AddToCartButtonProps {
   product: {
@@ -28,30 +30,17 @@ export default function AddToCartButton({ product }: AddToCartButtonProps) {
       image: product.image?.desktop || "/assets/shared/desktop/image-placeholder.jpg",
     });
 
-    alert(`${product.name} (x${quantity}) added to your cart!`);
     setQuantity(1);
   };
 
   return (
     <div className="flex items-center gap-6 mt-10">
-      {/* Quantity Controls */}
       <div className="flex items-center bg-[#F1F1F1] rounded-md">
-        <button
-          onClick={decreaseQty}
-          className="px-4 py-3 font-bold text-gray-600 hover:text-[#D87D4A] transition"
-        >
-          −
-        </button>
+        <button onClick={decreaseQty} className="px-4 py-3 font-bold text-gray-600 hover:text-[#D87D4A] transition">−</button>
         <span className="px-5 py-3 text-sm font-semibold">{quantity}</span>
-        <button
-          onClick={increaseQty}
-          className="px-4 py-3 font-bold text-gray-600 hover:text-[#D87D4A] transition"
-        >
-          +
-        </button>
+        <button onClick={increaseQty} className="px-4 py-3 font-bold text-gray-600 hover:text-[#D87D4A] transition">+</button>
       </div>
 
-      {/* Add to Cart Button */}
       <button
         onClick={handleAddToCart}
         className="bg-[#D87D4A] hover:bg-[#FBAF85] text-white uppercase px-8 py-3 tracking-widest text-sm font-semibold rounded-md transition"

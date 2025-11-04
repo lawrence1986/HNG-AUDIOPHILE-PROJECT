@@ -79,7 +79,7 @@ export default function CheckoutPage() {
         vat,
         grandTotal,
       },
-      status: "pending",
+      status: "pending" as const,
       createdAt: Date.now(),
     };
 

@@ -29,7 +29,7 @@ export default defineSchema({
       vat: v.number(),
       grandTotal: v.number(),
     }),
-    status: v.string(),
+   status: v.union(v.literal("pending"), v.literal("paid")),
     createdAt: v.number(),
   }),
 });
