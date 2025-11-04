@@ -1,26 +1,22 @@
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { CartProvider } from "@/app/context/CartContext";
+import ClientProviders from "./ClientProviders";
 
 export const metadata = {
   title: "Audiophile",
-  description: "Audiophile E-commerce App",
+  description: "Premium audio equipment store",
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className="bg-[#FAFAFA] text-black">
-        <CartProvider>
+      <body>
+        <ClientProviders>
           <Header />
-          <main>{children}</main>
+          {children}
           <Footer />
-        </CartProvider>
+        </ClientProviders>
       </body>
     </html>
   );

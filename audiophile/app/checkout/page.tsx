@@ -4,6 +4,9 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useCart } from "@/app/context/CartContext";
+import { useRouter } from "next/navigation";
+import { useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
 
 type InputProps = {
   label: string;
@@ -18,6 +21,9 @@ export default function CheckoutPage() {
   const shipping = 50;
   const vat = Math.round(total * 0.2);
   const grandTotal = total + shipping + vat;
+
+  const router = useRouter();
+  const createOrder = useMutation(api.orders.createOrder);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -39,13 +45,66 @@ export default function CheckoutPage() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // ✅ CHECKOUT SUBMIT HANDLER WITH CONVEX + EMAIL
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (cart.length === 0) {
+      alert("Your cart is empty.");
+      return;
+    }
+
+    const order = {
+      customer: {
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+      },
+      shipping: {
+        address: formData.address,
+        city: formData.city,
+        country: formData.country,
+        zip: formData.zip,
+      },
+      items: cart.map((item) => ({
+        id: item.id,
+        name: item.name,
+        price: item.price,
+        quantity: item.quantity,
+        image: item.image,
+      })),
+      totals: {
+        subtotal: total,
+        shipping,
+        vat,
+        grandTotal,
+      },
+      status: "pending",
+      createdAt: Date.now(),
+    };
+
+    // ✅ Save Order
+    const orderId = await createOrder(order);
+
+    // ✅ Send Confirmation Email
+    await fetch("/api/send-confirmation", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: formData.email,
+        name: formData.name,
+        orderId,
+        items: order.items,
+        totals: order.totals,
+      }),
+    });
+
     setIsConfirmed(true);
+    clearCart();
   };
 
   const handleClose = () => {
-    clearCart();
+    router.push("/");
     setIsConfirmed(false);
   };
 
@@ -53,11 +112,8 @@ export default function CheckoutPage() {
     <main className="max-w-6xl mx-auto px-6 py-20">
       <h1 className="text-3xl font-bold uppercase mb-10 tracking-widest">Checkout</h1>
 
-      <form
-        onSubmit={handleSubmit}
-        className="grid lg:grid-cols-[2fr,1fr] gap-12 bg-transparent"
-      >
-        {/* ----------------------- LEFT SIDE FORM ----------------------- */}
+      <form onSubmit={handleSubmit} className="grid lg:grid-cols-[2fr,1fr] gap-12 bg-transparent">
+        {/* LEFT SIDE FORM */}
         <div className="bg-white shadow-md rounded-lg p-10 space-y-8">
           <h2 className="uppercase text-[#D87D4A] text-sm tracking-widest font-bold mb-4">
             Billing Details
@@ -73,13 +129,7 @@ export default function CheckoutPage() {
             Shipping Info
           </h2>
 
-          <Input
-            label="Address"
-            name="address"
-            value={formData.address}
-            onChange={handleChange}
-            full
-          />
+          <Input label="Address" name="address" value={formData.address} onChange={handleChange} full />
 
           <div className="grid sm:grid-cols-2 gap-6">
             <Input label="ZIP Code" name="zip" value={formData.zip} onChange={handleChange} />
@@ -88,33 +138,29 @@ export default function CheckoutPage() {
           </div>
         </div>
 
-        {/* ----------------------- RIGHT SIDE SUMMARY ----------------------- */}
+        {/* SUMMARY */}
         <div className="bg-white shadow-md rounded-lg p-8 h-fit self-start">
           <h2 className="uppercase text-xl font-bold mb-6 tracking-widest">Summary</h2>
 
-          <ul className="space-y-6 max-h-72 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300">
-            {cart.length > 0 ? (
-              cart.map((item) => (
-                <li key={item.id} className="flex justify-between items-center">
-                  <div className="flex items-center gap-4">
-                    <Image
-                      src={item.image}
-                      alt={item.name}
-                      width={64}
-                      height={64}
-                      className="rounded-md bg-[#F1F1F1] object-cover"
-                    />
-                    <div>
-                      <p className="font-semibold text-sm uppercase">{item.name}</p>
-                      <p className="text-gray-500 text-sm">$ {item.price.toLocaleString()}</p>
-                    </div>
+          <ul className="space-y-6 max-h-72 overflow-y-auto">
+            {cart.map((item) => (
+              <li key={item.id} className="flex justify-between items-center">
+                <div className="flex items-center gap-4">
+                  <Image
+                    src={item.image}
+                    alt={item.name}
+                    width={64}
+                    height={64}
+                    className="rounded-md bg-[#F1F1F1] object-cover"
+                  />
+                  <div>
+                    <p className="font-semibold text-sm uppercase">{item.name}</p>
+                    <p className="text-gray-500 text-sm">$ {item.price.toLocaleString()}</p>
                   </div>
-                  <p className="text-gray-500 font-bold text-sm">x{item.quantity}</p>
-                </li>
-              ))
-            ) : (
-              <p className="text-gray-500 text-center">Your cart is empty.</p>
-            )}
+                </div>
+                <p className="text-gray-500 font-bold text-sm">x{item.quantity}</p>
+              </li>
+            ))}
           </ul>
 
           <div className="space-y-3 mt-10 text-sm tracking-wide">
@@ -137,21 +183,21 @@ export default function CheckoutPage() {
               <span className="text-gray-500 uppercase">Grand Total</span>
               <span className="font-bold text-lg text-[#D87D4A]">$ {grandTotal.toLocaleString()}</span>
             </div>
-          </div>
 
-          <button
-            type="submit"
-            className="w-full bg-[#D87D4A] hover:bg-[#FBAF85] text-white font-semibold uppercase py-4 mt-8 tracking-widest transition-all rounded-md"
-          >
-            Continue & Pay
-          </button>
+            <button
+              type="submit"
+              className="w-full bg-[#D87D4A] hover:bg-[#FBAF85] text-white font-semibold uppercase py-4 mt-8 tracking-widest rounded-md transition-all"
+            >
+              Continue & Pay
+            </button>
+          </div>
         </div>
       </form>
 
-      {/* ----------------------- CONFIRMATION MODAL ----------------------- */}
+      {/* CONFIRMATION MODAL */}
       {isConfirmed && (
         <div className="fixed inset-0 bg-black/60 flex justify-center items-center z-50">
-          <div className="bg-white rounded-lg shadow-xl p-10 max-w-md w-full mx-4 animate-fadeIn">
+          <div className="bg-white rounded-lg shadow-xl p-10 max-w-md w-full mx-4">
             <Image
               src="/assets/checkout/icon-order-confirmation.svg"
               alt="Confirmation"
@@ -159,45 +205,13 @@ export default function CheckoutPage() {
               height={64}
               className="mb-6"
             />
-            <h2 className="text-2xl font-bold uppercase mb-2">Thank You<br />for your order</h2>
+            <h2 className="text-2xl font-bold uppercase mb-2">
+              Thank You<br />for your order
+            </h2>
             <p className="text-gray-500 text-sm mb-8">
               You will receive an email confirmation shortly.
             </p>
 
-            {/* Order Summary Block */}
-            <div className="bg-[#F1F1F1] rounded-lg overflow-hidden flex flex-col md:flex-row">
-              <div className="flex-1 p-6 space-y-4 border-b md:border-b-0 md:border-r border-gray-300">
-                <div className="flex justify-between items-center">
-                  <div className="flex items-center gap-4">
-                    <Image
-                      src={cart[0]?.image || "/assets/shared/desktop/image-placeholder.jpg"}
-                      alt={cart[0]?.name || ""}
-                      width={50}
-                      height={50}
-                      className="rounded-md bg-white"
-                    />
-                    <div>
-                      <p className="font-semibold text-sm uppercase">{cart[0]?.name}</p>
-                      <p className="text-gray-500 text-sm">$ {cart[0]?.price.toLocaleString()}</p>
-                    </div>
-                  </div>
-                  <p className="text-gray-500 font-bold text-sm">x{cart[0]?.quantity}</p>
-                </div>
-
-                {cart.length > 1 && (
-                  <p className="text-center text-gray-500 text-sm border-t pt-4">
-                    and {cart.length - 1} other item(s)
-                  </p>
-                )}
-              </div>
-
-              <div className="bg-black text-white p-6 flex flex-col justify-center items-start">
-                <p className="text-gray-400 uppercase text-xs tracking-wider">Grand Total</p>
-                <p className="text-lg font-bold mt-2">$ {grandTotal.toLocaleString()}</p>
-              </div>
-            </div>
-
-            {/* Back to Home Button */}
             <Link
               href="/"
               onClick={handleClose}
@@ -212,14 +226,11 @@ export default function CheckoutPage() {
   );
 }
 
-/* ---------------------- INPUT COMPONENT ---------------------- */
+/* INPUT COMPONENT */
 function Input({ label, name, value, onChange, full = false }: InputProps) {
   return (
     <div className={full ? "col-span-2" : ""}>
-      <label
-        htmlFor={name}
-        className="block text-sm font-semibold text-gray-700 mb-2"
-      >
+      <label htmlFor={name} className="block text-sm font-semibold text-gray-700 mb-2">
         {label}
       </label>
       <input
@@ -227,7 +238,7 @@ function Input({ label, name, value, onChange, full = false }: InputProps) {
         name={name}
         value={value}
         onChange={onChange}
-        className="w-full border border-gray-300 rounded-md px-4 py-3 text-sm focus:ring-2 focus:ring-[#D87D4A] outline-none"
+        className="w-full border border-gray-300 rounded-md px-4 py-3 text-sm focus:ring-2 focus:ring-[#D87D4A]"
         required
       />
     </div>
