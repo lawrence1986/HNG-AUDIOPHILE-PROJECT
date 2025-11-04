@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { products } from "../lib/products";
+import { products } from "@/lib/products";
 
 export default function Home() {
   const featured = products.filter(p => ["zx9-speaker", "zx7-speaker", "yx1-earphones"].includes(p.slug));
