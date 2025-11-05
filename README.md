@@ -48,9 +48,7 @@ This will install its dependencies.
 
 Create a .env.local file in the root directory:
 
-```php
-'base_path' => '/hng-stage-2-twig/public',
-```
+.env
 
 ### 4. Convex Implementation/ Setup
 
@@ -86,7 +84,7 @@ npx convex deploy
 
 ```
 HNG-AUDIOPHILE-PROJECT/
-├── config.php                 # Application configuration
+├── config.php                 # App config
 ├── composer.json             # PHP dependencies
 ├── public/                   # Public web root
 │   ├── index.php            # Main router
