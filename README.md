@@ -2,45 +2,57 @@
 # By: LawrenceM
 audiophile
 
-## App working Locally.
-# Live Building Ongoing
-Audiophile E-Commerce Website
-A fully-functional, pixel-perfect e-commerce website for high-end audio equipment built with Next.js, Convex, and modern web technologies.
 
-🚀 Live Demo: Build broke. Still debugging. 
-[Add your deployed link here]
 
-✨ Features
-Pixel-Perfect Design: Responsive across mobile, tablet, and desktop breakpoints
-Complete Checkout Flow: Form validation, order processing, and confirmation emails
-Shopping Cart: Persistent cart with add/remove/update quantity functionality
-Product Catalog: Dynamic product pages with galleries and related items
-Backend Integration: Convex database for order storage and management
-Email Notifications: Professional HTML emails sent on order confirmation
-Accessibility: ARIA labels, keyboard navigation, and screen reader support
-Type Safety: Full TypeScript implementation
-🛠️ Tech Stack
-Framework: Next.js 15 (App Router)
-Language: TypeScript
-Styling: Tailwind CSS
-Backend: Convex
-Email: Nodemailer (Gmail SMTP)
-Validation: Zod
-UI Components: Shadcn UI + Custom Components
-State Management: React Context API
-Notifications: Sonner Toast
-📋 Prerequisites
-Node.js 18+ and pnpm
-Gmail account for email sending (with App Password)
-Convex account (convex.dev)
-🚀 Getting Started
-1. Clone the Repository
-git clone https://github.com/yourusername/audiophile-e-commerce.git
-cd audiophile-e-commerce
-2. Install Dependencies
+# Audiophile Web App
+
+
+A modern ticket management web application built with PHP, Twig templating engine, and vanilla JavaScript. This implementation is part of the HNG Stage 2 Multi-Framework Ticket Web App task.
+
+## 🛠️ Frameworks and Libraries Used
+
+- **Framework**: Next.js 15 (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **Backend**: Convex
+- **Tailwind CSS** - Utility-first CSS framework (via CDN)
+- **Validation**: Zod
+- **State Management**: React Context API
+- **UI Components**: Shadcn UI + Custom Components
+- 
+
+## 📋 Prerequisites
+
+- **Node.js 18+ or higher** installed
+- **Gmail account** for email sending (with App Password)
+- **Convex account** (convex.dev)
+- Modern web browser with JavaScript enabled
+
+## 🚀 Setup and Installation
+
+### 1. Clone or Download the Project
+
+```bash
+cd HNG-AUDIOPHILE-PROJECT
+```
+
+### 2. Install Dependencies
+
+```bash
 pnpm install
-3. Set Up Environment Variables
+```
+
+This will install its dependencies.
+
+### 3.  Set Up Environment Variables
+
 Create a .env.local file in the root directory:
+
+```php
+'base_path' => '/hng-stage-2-twig/public',
+```
+
+### 4. Convex Implementation/ Setup
 
 # Convex
 CONVEX_DEPLOYMENT=your-convex-deployment-url
@@ -49,15 +61,9 @@ NEXT_PUBLIC_CONVEX_URL=https://your-convex-project.convex.cloud
 # Email Configuration (Gmail)
 EMAIL_USER=your-email@gmail.com
 EMAIL_PASS=your-app-password
-4. Configure Gmail for Email Sending
-Go to your Google Account settings
-Enable 2-Factor Authentication
-Generate an App Password:
-Go to Security → 2-Step Verification → App Passwords
-Select "Mail" and "Other (Custom name)"
-Copy the 16-character password
-Use this as EMAIL_PASS in your .env.local
-5. Set Up Convex
+
+### 5. Convex Pre-requisite
+
 # Login to Convex
 npx convex login
 
@@ -66,148 +72,219 @@ npx convex dev
 
 # Deploy Convex functions
 npx convex deploy
-6. Run Development Server
-pnpm dev
-Open http://localhost:3000 to see the application.
 
-📁 Project Structure
-audiophile-e-commerce/
+## 📱 Application Structure
+
+### Pages
+
+- **Home** (`/`) - Homepage with hero section and features
+- **Authentication** (`/auth/login`, `/auth/signup`) - Login and registration
+- **Dashboard** (`/dashboard`) - Overview with ticket statistics
+- **Tickets** (`/tickets`) - Full CRUD ticket management
+
+### Project Structure
+
+```
+HNG-AUDIOPHILE-PROJECT/
+├── config.php                 # Application configuration
+├── composer.json             # PHP dependencies
+├── public/                   # Public web root
+│   ├── index.php            # Main router
+│   ├── auth.php             # Auth router
+│   ├── api/
+│   │   └── tickets.php      # Tickets API endpoint
+│   ├── assets/
+│   │   ├── index.css        # Custom styles
+│   │   └── js/
+│   │       ├── config.js    # JS configuration
+│   │       ├── pages/       # Page-specific JS
+│   │       └── utils/       # Utility functions
+│   └── data/
+│       └── tickets.json     # Ticket data storage
 ├── src/
-│   ├── app/
-│   │   ├── _components/       # Homepage components
-│   │   ├── checkout/          # Checkout page & components
-│   │   ├── headphones/        # Category & product pages
-│   │   ├── speakers/          # Category & product pages
-│   │   ├── earphones/         # Category & product pages
-│   │   ├── api/
-│   │   │   └── send-order-email/  # Email API route
-│   │   ├── layout.tsx
-│   │   └── page.tsx
-│   ├── components/            # Reusable components
-│   │   ├── ui/               # Shadcn UI components
-│   │   ├── CartContext.tsx   # Cart state management
-│   │   └── ...
-│   └── lib/
-│       ├── mailer.ts         # Email template & sending logic
-│       ├── constants.ts      # Product data & constants
-│       └── utils.ts          # Utility functions
-├── convex/
-│   ├── schema.ts             # Database schema
-│   ├── orders.ts             # Order mutations & queries
-│   └── _generated/           # Auto-generated Convex files
-└── public/
-    ├── images/               # Product images
-    └── assets/               # Static assets
-🎨 Key Features Implementation
-Checkout Form
-10 validated fields with real-time error feedback
-Zod schema validation for all inputs
-Edge case handling: Invalid email, missing fields, duplicate submissions
-Payment options: e-Money or Cash on Delivery
-Accessibility: ARIA labels, keyboard navigation, focus states
-Order Processing
-Form validation
-Email confirmation sent (with fallback if fails)
-Order saved to Convex database
-Success modal displayed
-Cart cleared on modal close
-Redirect to homepage
-Email Template
-Responsive HTML design
-Branded with company colors
-Order summary with itemized list
-Shipping and contact details
-Unique order ID
-Professional formatting
-Cart Management
-Add/remove items
-Update quantities
-Persistent storage (localStorage)
-Real-time total calculation
-Responsive cart dialog
-🗄️ Database Schema (Convex)
-orders: {
-  // Customer Details
-  name: string
-  email: string
-  phone: string
+│   └── templates/
+│       ├── layouts/
+│       │   └── base.twig    # Base layout template
+│       ├── pages/           # Page templates
+│       └── partials/        # Reusable components
+└── vendor/                  # Composer dependencies
+```
 
-  // Shipping
-  address: string
-  city: string
-  country: string
-  zipCode: string
+## 🎨 UI Components and Features
 
-  // Payment
-  paymentMethod: "e-Money" | "Cash on Delivery"
-  eMoneyNumber?: string
-  eMoneyPin?: string
+### Layout Components
 
-  // Order Details
-  items: Array<{name, price, amount, imageUrl}>
-  subtotal: number
-  shipping: number
-  vat: number
-  grandTotal: number
+- **Pixel-Perfect Design** - Responsive across mobile, tablet, and desktop breakpoints
+- **Complete Checkout Flow** - Form validation, order processing, and confirmation emails
+- **Shopping Cart** - Persistent cart with add/remove/update quantity functionality
+- **Email Notificationsro** - Professional HTML emails sent on order confirmation
+- **Accessibility** - keyboard navigation, and screen reader support
 
-  // Metadata
-  orderId: string
-  status: "pending" | "processing" | "shipped" | "delivered"
-  createdAt: number
-}
-🚀 Deployment
-Deploy to Vercel
-# Install Vercel CLI
-pnpm add -g vercel
+### Ticket Components
 
-# Deploy
-vercel
-Environment Variables on Vercel
-Add these in your Vercel project settings:
+- **Ticket Cards** - Box-style display with status badges
+- **Ticket Dialog** - Modal for create/edit operations
+- **Delete Confirmation** - Safety dialog for ticket deletion
+- **Status Badges** - Color-coded status indicators
+  - 🟢 Open - Green (#22c55e)
+  - 🟠 In Progress - Amber (#f59e0b)
+  - ⚫ Closed - Gray (#9ca3af)
 
-CONVEX_DEPLOYMENT
-NEXT_PUBLIC_CONVEX_URL
-EMAIL_USER
-EMAIL_PASS
-Deploy Convex
-npx convex deploy --prod
-🧪 Testing Checklist
- Add products to cart
- Update cart quantities
- Remove items from cart
- Navigate to checkout
- Fill out form with validation errors
- Submit valid form
- Verify email received
- Check order in Convex dashboard
- Test on mobile, tablet, desktop
- Test keyboard navigation
- Test with screen reader
-📧 Email Template
-See src/lib/mailer.ts for the full HTML email template. Key features:
+### State Management
 
-Responsive table-based layout
-Branded header with AUDIOPHILE logo
-Order summary with all items
-Subtotal, shipping, VAT, and grand total
-Shipping address
-Payment method details
-Professional footer
-🎓 Stage 3 Requirements
-This project fulfills all Stage 3 requirements:
+- **Authentication State** - Managed via localStorage with key `ticketapp_session`
+- **Ticket State** - Fetched from API and stored in memory
+- **Form State** - Local component state with validation
 
-✅ Pixel-perfect responsive design (mobile, tablet, desktop)
-✅ Complete checkout with validation
-✅ Order storage in Convex
-✅ Transactional email confirmation
-✅ Order confirmation page
-✅ Accessibility features
-✅ Edge case handling
-✅ Clean, modular code
-See REQUIREMENTS_CHECKLIST.md for detailed compliance report.
+## 🔐 Authentication System
 
-🤝 Contributing
-This is a portfolio/learning project. Feel free to fork and experiment!
+### Session Management
 
-📝 License
-MIT
+- Uses localStorage with key: `ticketapp_session`
+- Stores user data including email and name
+- Protected routes check for valid session
+- Automatic redirect to login if unauthorized
+
+### Test User Credentials
+
+**Pre-registered User:**
+
+- Email: `steph@test.build`
+- Password: `1234567`
+
+**Or create a new account:**
+
+1. Go to `/auth/signup`
+2. Fill in name, email, and password
+3. Click "Sign Up"
+4. Automatically logged in and redirected to dashboard
+
+## ✅ Data Validation Rules
+
+### Ticket Validation
+
+- **Title** - Required, cannot be empty
+- **Description** - Required, cannot be empty
+- **Status** - Must be one of: `open`, `in-progress`, `closed`
+
+### Authentication Validation
+
+- **Name** - Required for signup
+- **Email** - Required, must be valid email format
+- **Password** - Required, minimum validation
+
+### Error Feedback
+
+- Inline error messages below form fields
+- Toast notifications for success/error actions
+- Red borders on invalid inputs
+
+## 🛡️ Error Handling
+
+### Authentication Errors
+
+- "No account found for that email address."
+- "Incorrect password. Please try again."
+- Email format validation
+
+### Ticket Errors
+
+- "Title is required"
+- "Description is required"
+- "Invalid status"
+- "Failed to load tickets"
+- "Failed to save ticket"
+
+### Authorization Errors
+
+- Unauthorized access redirects to `/auth/login`
+- Session expiry handling
+
+## ♿ Accessibility Features
+
+- Semantic HTML5 elements (`<main>`, `<nav>`, `<footer>`, etc.)
+- Proper heading hierarchy (`<h1>` to `<h3>`)
+- ARIA labels where appropriate
+- Keyboard navigation support
+- Focus states on interactive elements
+- Sufficient color contrast ratios
+- Responsive font sizes and touch targets
+
+## 📱 Responsive Design
+
+### Breakpoints
+
+- **Mobile** - < 640px (stacked layout)
+- **Tablet** - 640px - 1024px (2-column grid)
+- **Desktop** - > 1024px (3-column grid, max-width 1440px)
+
+### Mobile Features
+
+- Hamburger menu (if implemented)
+- Stacked form layouts
+- Single-column ticket grid
+- Touch-friendly buttons (min 44px)
+
+## 🐛 Known Issues and Limitations
+
+1. **File-based Storage** - Tickets stored in JSON file; not suitable for production
+2. **No Real Authentication** - Uses localStorage; vulnerable to XSS attacks
+3. **No Password Hashing** - Passwords stored in plain text in localStorage
+4. **No Pagination** - All tickets loaded at once; performance issues with many tickets
+5. **No Search/Filter** - No ability to search or filter tickets
+6. **Session Persistence** - Sessions don't persist across browsers/devices
+
+## 🔄 Switching Between Implementations
+
+This is the **Twig/PHP** implementation. Other implementations (React, Vue.js) should be in separate repositories or folders:
+
+- **React Version**: `https://github.com/DammyCodes-all/hng-stage-2-react/`
+- **Vue.js Version**: `https://github.com/DammyCodes-all/hng-stage-2-vue/`
+- **Twig Version**: `https://github.com/DammyCodes-all/hng-stage-2-twig/` (this project)
+
+Each implementation is standalone and can run independently.
+
+## 🧪 Testing the Application
+
+### Manual Testing Checklist
+
+1. **Landing Page**
+
+   - [ ] Hero section displays correctly
+   - [ ] Wavy background visible
+   - [ ] Login and Get Started buttons work
+   - [ ] Footer present
+
+2. **Authentication**
+
+   - [ ] Can create new account
+   - [ ] Can login with existing credentials
+   - [ ] Validation errors display correctly
+   - [ ] Toast notifications appear
+   - [ ] Redirects to dashboard on success
+
+3. **Dashboard**
+
+   - [ ] Statistics display correctly
+   - [ ] Logout button works
+   - [ ] Redirects to login when not authenticated
+   - [ ] Create ticket button opens dialog
+
+4. **Ticket Management**
+   - [ ] Can create new ticket
+   - [ ] Can view all tickets
+   - [ ] Can edit existing ticket
+   - [ ] Can delete ticket (with confirmation)
+   - [ ] Status colors correct
+   - [ ] Validation works
+
+## 📞 Support and Contact: 08065484243 or send email to: madusquare@gmail.com
+
+For questions about this implementation, refer to the HNG Internship documentation or community channels.
+
+## 📄 License
+
+This project is created for the HNG Stage 2 Internship task.
+
+---
+
