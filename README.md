@@ -77,164 +77,166 @@ Access at: `http://localhost:8000/`
 ### Project Structure
 
 ```
-hng-stage-2-twig/
-├── config.php                 # Application configuration
-├── composer.json             # PHP dependencies
-├── public/                   # Public web root
-│   ├── index.php            # Main router
-│   ├── auth.php             # Auth router
+AUDIOPHILE/
+│
+├── .env.local
+├── .gitignore
+├── eslint.config.mjs
+├── next.config.ts
+├── next-env.d.ts
+├── package.json
+├── package-lock.json
+├── pnpm-lock.yaml
+├── postcss.config.mjs
+├── README.md
+├── tsconfig.json
+│
+├── app/
+│   ├── favicon.ico
+│   ├── globals.css
+│   ├── layout.tsx
+│   ├── page.tsx
 │   ├── api/
-│   │   └── tickets.php      # Tickets API endpoint
-│   ├── assets/
-│   │   ├── index.css        # Custom styles
-│   │   └── js/
-│   │       ├── config.js    # JS configuration
-│   │       ├── pages/       # Page-specific JS
-│   │       └── utils/       # Utility functions
-│   └── data/
-│       └── tickets.json     # Ticket data storage
-├── src/
-│   └── templates/
-│       ├── layouts/
-│       │   └── base.twig    # Base layout template
-│       ├── pages/           # Page templates
-│       └── partials/        # Reusable components
-└── vendor/                  # Composer dependencies
+│   │   └── send-order-confirmation/route.ts
+│   ├── checkout/page.tsx
+│   ├── earphones/
+│   │   ├── page.tsx
+│   │   └── [slug]/page.tsx
+│   ├── headphones/
+│   │   ├── page.tsx
+│   │   └── [slug]/page.tsx
+│   ├── orders/[orderNumber]/page.tsx
+│   └── speakers/
+│       ├── page.tsx
+│       └── [slug]/page.tsx
+│
+├── components/
+│   ├── button.tsx
+│   ├── ConvexClientProvider.tsx
+│   ├── cart/CartModal.tsx
+│   ├── checkout/CheckoutSuccessModal.tsx
+│   ├── form/
+│   │   ├── NumberInput.tsx
+│   │   ├── RadioInput.tsx
+│   │   └── TextField.tsx
+│   ├── home/
+│   │   ├── AboutSection.tsx
+│   │   ├── Categories.tsx
+│   │   ├── FeaturedYX1.tsx
+│   │   ├── FeaturedZX7.tsx
+│   │   ├── FeaturedZX9.tsx
+│   │   ├── Hero.tsx
+│   │   ├── hero.module.css
+│   │   ├── featured-zx7.module.css
+│   │   ├── featured-zx9.module.css
+│   │   └── category.module.css
+│   ├── product/AddToCart.tsx
+│   └── shared/
+│       ├── Footer.tsx
+│       └── NavBar.tsx
+│
+├── contexts/
+│   └── CartContext.tsx
+│
+├── convex/
+│   ├── orders.ts
+│   ├── schema.ts
+│   ├── tsconfig.json
+│   ├── README.md
+│   └── _generated/
+│       ├── api.d.ts
+│       ├── api.js
+│       ├── dataModel.d.ts
+│       ├── server.d.ts
+│       └── server.js
+│
+├── lib/
+│   ├── products.ts
+│   ├── validation.ts
+│   └── email/
+│       └── templates/orderConfirmation.ts
+│
+└── public/
+    ├── file.svg
+    ├── globe.svg
+    ├── next.svg
+    ├── vercel.svg
+    ├── window.svg
+    ├── assets/
+    │   ├── carts.svg
+    │   ├── db.json
+    │   ├── earphone.png
+    │   ├── favicon-32x32.png
+    │   ├── hamburger.svg
+    │   ├── headphones.png
+    │   ├── headphone.svg
+    │   ├── logo.svg
+    │   ├── man.png
+    │   ├── react.svg
+    │   ├── speaker.png
+    │   ├── zx9-desktop.png
+    │   ├── zx9-tab-mob.png
+    │   └── (category, checkout, home, product folders with device-specific images)
+
+
 ```
 
-## 🎨 UI Components and Features
+## 🎨 Order Processing
 
-### Layout Components
 
-- **Navbar** - Responsive navigation with auth state
-- **Footer** - Consistent footer across all pages
-- **Base Layout** - Max-width 1440px, centered on large screens
-- **Wavy Hero** - SVG wave background on landing page
-- **Decorative Circles** - Blurred circular elements for visual appeal
 
-### Ticket Components
+- **Form validation** 
+- **Order saved to Convex database** - Consistent footer across all pages
+- **Success modal displayed** - Max-width 1440px, centered on large screens
+- **Cart cleared on modal close** - SVG wave background on landing page
+- **Email confirmation sent (with fallback if fails)**
+- **Redirect to homepage** - Blurred circular elements for visual appeal
 
-- **Ticket Cards** - Box-style display with status badges
-- **Ticket Dialog** - Modal for create/edit operations
-- **Delete Confirmation** - Safety dialog for ticket deletion
-- **Status Badges** - Color-coded status indicators
-  - 🟢 Open - Green (#22c55e)
-  - 🟠 In Progress - Amber (#f59e0b)
-  - ⚫ Closed - Gray (#9ca3af)
 
-### State Management
+### Email Template
 
-- **Authentication State** - Managed via localStorage with key `ticketapp_session`
-- **Ticket State** - Fetched from API and stored in memory
-- **Form State** - Local component state with validation
+- **Responsive HTML design**
+- **Branded with company colors**
+- **Order summary with itemized list**
 
-## 🔐 Authentication System
 
-### Session Management
+### Cart Management
 
-- Uses localStorage with key: `ticketapp_session`
-- Stores user data including email and name
-- Protected routes check for valid session
-- Automatic redirect to login if unauthorized
+- Add/remove items`
+- Update quantities
+- Persistent storage (localStorage)
+- Responsive cart dialog
 
-### Test User Credentials
+## 🔄 Database Schema (Convex)
+orders: {
+  // Customer Details
+  name: string
+  email: string
+  phone: string
 
-**Pre-registered User:**
+  // Shipping
+  address: string
+  city: string
+  country: string
+  zipCode: string
 
-- Email: `steph@test.build`
-- Password: `1234567`
+  // Payment
+  paymentMethod: "e-Money" | "Cash on Delivery"
+  eMoneyNumber?: string
+  eMoneyPin?: string
 
-**Or create a new account:**
+  // Order Details
+  items: Array<{name, price, amount, imageUrl}>
+  subtotal: number
+  shipping: number
+  vat: number
+  grandTotal: number
 
-1. Go to `/auth/signup`
-2. Fill in name, email, and password
-3. Click "Sign Up"
-4. Automatically logged in and redirected to dashboard
-
-## ✅ Data Validation Rules
-
-### Ticket Validation
-
-- **Title** - Required, cannot be empty
-- **Description** - Required, cannot be empty
-- **Status** - Must be one of: `open`, `in-progress`, `closed`
-
-### Authentication Validation
-
-- **Name** - Required for signup
-- **Email** - Required, must be valid email format
-- **Password** - Required, minimum validation
-
-### Error Feedback
-
-- Inline error messages below form fields
-- Toast notifications for success/error actions
-- Red borders on invalid inputs
-
-## 🛡️ Error Handling
-
-### Authentication Errors
-
-- "No account found for that email address."
-- "Incorrect password. Please try again."
-- Email format validation
-
-### Ticket Errors
-
-- "Title is required"
-- "Description is required"
-- "Invalid status"
-- "Failed to load tickets"
-- "Failed to save ticket"
-
-### Authorization Errors
-
-- Unauthorized access redirects to `/auth/login`
-- Session expiry handling
-
-## ♿ Accessibility Features
-
-- Semantic HTML5 elements (`<main>`, `<nav>`, `<footer>`, etc.)
-- Proper heading hierarchy (`<h1>` to `<h3>`)
-- ARIA labels where appropriate
-- Keyboard navigation support
-- Focus states on interactive elements
-- Sufficient color contrast ratios
-- Responsive font sizes and touch targets
-
-## 📱 Responsive Design
-
-### Breakpoints
-
-- **Mobile** - < 640px (stacked layout)
-- **Tablet** - 640px - 1024px (2-column grid)
-- **Desktop** - > 1024px (3-column grid, max-width 1440px)
-
-### Mobile Features
-
-- Hamburger menu (if implemented)
-- Stacked form layouts
-- Single-column ticket grid
-- Touch-friendly buttons (min 44px)
-
-## 🐛 Known Issues and Limitations
-
-1. **File-based Storage** - Tickets stored in JSON file; not suitable for production
-2. **No Real Authentication** - Uses localStorage; vulnerable to XSS attacks
-3. **No Password Hashing** - Passwords stored in plain text in localStorage
-4. **No Pagination** - All tickets loaded at once; performance issues with many tickets
-5. **No Search/Filter** - No ability to search or filter tickets
-6. **Session Persistence** - Sessions don't persist across browsers/devices
-
-## 🔄 Switching Between Implementations
-
-This is the **Twig/PHP** implementation. Other implementations (React, Vue.js) should be in separate repositories or folders:
-
-- **React Version**: `https://github.com/DammyCodes-all/hng-stage-2-react/`
-- **Vue.js Version**: `https://github.com/DammyCodes-all/hng-stage-2-vue/`
-- **Twig Version**: `https://github.com/DammyCodes-all/hng-stage-2-twig/` (this project)
-
-Each implementation is standalone and can run independently.
+  // Metadata
+  orderId: string
+  status: "pending" | "processing" | "shipped" | "delivered"
+  createdAt: number
+}
 
 ## 🧪 Testing the Application
 
@@ -270,7 +272,7 @@ Each implementation is standalone and can run independently.
    - [ ] Status colors correct
    - [ ] Validation works
 
-## 📞 Support and Contact: 08065484243 or send email to: madusquare@gmail.com
+# 📞 Support and Contact: 08065484243 or send email to: madusquare@gmail.com
 
 For questions about this implementation, refer to the HNG Internship documentation or community channels.
 
