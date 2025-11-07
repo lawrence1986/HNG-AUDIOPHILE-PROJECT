@@ -3,7 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+<<<<<<< HEAD
     "dev": "next dev --webpack",
+=======
+    "dev": "next dev",
+>>>>>>> 50811390781847ab3977e0cc92bdb1ccfef3fa87
     "build": "next build",
     "start": "next start",
     "lint": "eslint"
@@ -18,6 +22,7 @@
     "resend": "^6.4.0"
   },
   "devDependencies": {
+<<<<<<< HEAD
     "@tailwindcss/postcss": "^4.0.0",
     "@types/node": "^20.11.19",
     "@types/nodemailer": "^7.0.3",
@@ -30,5 +35,16 @@
     "tailwindcss": "^4.0.0",
     "typescript": "^5.6.3",
     "@swc/core": "^1.7.25"
+=======
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/nodemailer": "^7.0.3",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.0.1",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+>>>>>>> 50811390781847ab3977e0cc92bdb1ccfef3fa87
   }
 }
