@@ -1,171 +1,37 @@
-# HNG-AUDIOPHILE-PROJECT
-# By: LawrenceM
-audiophile
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## Getting Started
 
-
-# Audiophile Web App
-
-
-A modern ticket management web application built with PHP, Twig templating engine, and vanilla JavaScript. This implementation is part of the HNG Stage 2 Multi-Framework Ticket Web App task.
-
-## 🛠️ Frameworks and Libraries Used
-
-- **Framework**: Next.js 15 (App Router)
-- **Language**: TypeScript
-- **Styling**: Tailwind CSS
-- **Backend**: Convex
-- **Tailwind CSS** - Utility-first CSS framework (via CDN)
-- **Validation**: Zod
-- **State Management**: React Context API
-- **UI Components**: Shadcn UI + Custom Components
-- 
-
-## 📋 Prerequisites
-
-- **Node.js 18+ or higher** installed
-- **Gmail account** for email sending (with App Password)
-- **Convex account** (convex.dev)
-- Modern web browser with JavaScript enabled
-
-## 🚀 Setup and Installation
-
-### 1. Clone or Download the Project
+First, run the development server:
 
 ```bash
-cd HNG-AUDIOPHILE-PROJECT
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
 ```
 
-### 2. Install Dependencies
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-```bash
-pnpm install
-```
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-This will install its dependencies.
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-### 3.  Set Up Environment Variables
+## Learn More
 
-Create a .env.local file in the root directory:
+To learn more about Next.js, take a look at the following resources:
 
-.env
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-### 4. Convex Implementation/ Setup
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-# Convex
-CONVEX_DEPLOYMENT=your-convex-deployment-url
-NEXT_PUBLIC_CONVEX_URL=https://your-convex-project.convex.cloud
+## Deploy on Vercel
 
-# Email Configuration (Gmail)
-EMAIL_USER=your-email@gmail.com
-EMAIL_PASS=your-app-password
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-### 5. Convex Pre-requisite
-
-# Login to Convex
-npx convex login
-
-# Initialize Convex (if not already done)
-npx convex dev
-
-# Deploy Convex functions
-npx convex deploy
-
-## 📱 Application Structure
-
-### Pages
-
-- **Home** (`/`) - Homepage with hero section and features
-- **Authentication** (`/auth/login`, `/auth/signup`) - Login and registration
-- **Dashboard** (`/dashboard`) - Overview with ticket statistics
-- **Tickets** (`/tickets`) - Full CRUD ticket management
-
-### Project Structure
-
-```
-HNG-AUDIOPHILE-PROJECT/
-├── config.php                 # App config
-├── composer.json             # PHP dependencies
-├── public/                   # Public web root
-│   ├── index.php            # Main router
-│   ├── auth.php             # Auth router
-│   ├── api/
-│   │   └── tickets.php      # Tickets API endpoint
-│   ├── assets/
-│   │   ├── index.css        # Custom styles
-│   │   └── js/
-│   │       ├── config.js    # JS configuration
-│   │       ├── pages/       # Page-specific JS
-│   │       └── utils/       # Utility functions
-│   └── data/
-│       └── tickets.json     # Ticket data storage
-├── src/
-│   └── templates/
-│       ├── layouts/
-│       │   └── base.twig    # Base layout template
-│       ├── pages/           # Page templates
-│       └── partials/        # Reusable components
-└── vendor/                  # Composer dependencies
-```
-
-## 🎨 UI Components and Features
-
-### Layout Components
-
-- **Pixel-Perfect Design** - Responsive across mobile, tablet, and desktop breakpoints
-- **Complete Checkout Flow** - Form validation, order processing, and confirmation emails
-- **Shopping Cart** - Persistent cart with add/remove/update quantity functionality
-- **Email Notificationsro** - Professional HTML emails sent on order confirmation
-- **Accessibility** - keyboard navigation, and screen reader support
-
-### Ticket Components
-
-- **Ticket Cards** - Box-style display with status badges
-- **Ticket Dialog** - Modal for create/edit operations
-- **Delete Confirmation** - Safety dialog for ticket deletion
-- **Status Badges** - Color-coded status indicators
-  - 🟢 Open - Green (#22c55e)
-  - 🟠 In Progress - Amber (#f59e0b)
-  - ⚫ Closed - Gray (#9ca3af)
-
-### State Management
-
-- **Authentication State** - Managed via localStorage with key `ticketapp_session`
-- **Ticket State** - Fetched from API and stored in memory
-- **Form State** - Local component state with validation
-
-## 🔐 Authentication System
-
-### Session Management
-
-- Uses localStorage with key: `ticketapp_session`
-- Stores user data including email and name
-- Protected routes check for valid session
-- Automatic redirect to login if unauthorized
-
-
-
-- **Name** - Required for signup
-- **Email** - Required, must be valid email format
-- **Password** - Required, minimum validation
-
-
-## 📱 Responsive Design
-
-### Breakpoints
-
-- **Mobile** - < 640px (stacked layout)
-- **Tablet** - 640px - 1024px (2-column grid)
-- **Desktop** - > 1024px (3-column grid, max-width 1440px)
-
-
-# 📞 Support and Contact: 08065484243 or send email to: madusquare@gmail.com
-
-For questions about this implementation, refer to the HNG Internship documentation or community channels.
-
-## 📄 License
-
-This project is created for the HNG Stage 2 Internship task.
-
----
-
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+# HNG-AUDIOPHILE
